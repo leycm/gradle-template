@@ -160,17 +160,4 @@ subprojects {
     tasks.named("publish") {
         finalizedBy("updateRepo")
     }
-
-    configure<SigningExtension> {
-
-        val signingKey = env("SIGNING_KEY")
-        val signingPassword = env("SIGNING_PASSWORD")
-
-        if (signingKey != null && signingPassword != null) {
-
-            useInMemoryPgpKeys(signingKey, signingPassword)
-
-            sign(extensions.getByType<PublishingExtension>().publications)
-        }
-    }
 }
