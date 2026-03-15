@@ -6,7 +6,6 @@ import org.gradle.plugins.signing.SigningExtension
 plugins {
     java
     `maven-publish`
-    signing
     alias(libs.plugins.lombok) apply false
 }
 
@@ -69,7 +68,6 @@ allprojects {
 subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
-    apply(plugin = "signing")
     apply(plugin = "io.freefair.lombok")
 
     java {
