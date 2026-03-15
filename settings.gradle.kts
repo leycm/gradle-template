@@ -38,8 +38,9 @@ dependencyResolutionManagement {
 
 // Project Includes
 rootProject.name = getGradleProperty("artifact") ?: "null"
+var prefix = (getGradleProperty("prefix") ?: "sub") + "-"
 
 include("api", "impl")
 
-project(":api").projectDir = file("tmpl-api")
-project(":impl").projectDir = file("tmpl-impl")
+project(":api").projectDir = file("${prefix}api")
+project(":impl").projectDir = file("${prefix}impl")
