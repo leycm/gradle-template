@@ -10,17 +10,17 @@
  */
 package com.example.template;
 
-import de.leycm.init4j.instance.Initializable;
+import de.leycm.init4j.instance.Instanceable;
 
 import lombok.NonNull;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-public interface ExampleProvider extends Initializable {
+public interface ExampleProvider extends Instanceable {
 
     @Contract(pure = true)
     static @NonNull ExampleProvider getInstance() {
-        return Initializable.getInstance("com.example.template", ExampleProvider.class);
+        return Instanceable.getInstance("com.example.template", ExampleProvider.class);
     }
 
     @NonNull String getExampleValue();
