@@ -10,10 +10,18 @@
  */
 package com.example.template;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+import de.leycm.init4j.instance.Initializable;
 
-public interface ExampleProvider {
+import lombok.NonNull;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
+public interface ExampleProvider extends Initializable {
+
+    @Contract(pure = true)
+    static @NonNull ExampleProvider getInstance() {
+        return Initializable.getInstance("com.example.template", ExampleProvider.class);
+    }
 
     @NonNull String getExampleValue();
 

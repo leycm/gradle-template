@@ -10,9 +10,9 @@
  */
 package com.example.template;
 
+import lombok.NonNull;
 import org.jetbrains.annotations.Contract;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
