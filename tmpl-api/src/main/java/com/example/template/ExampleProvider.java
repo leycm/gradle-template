@@ -20,7 +20,7 @@ public interface ExampleProvider extends Instanceable {
 
     @Contract(pure = true)
     static @NonNull ExampleProvider getInstance() {
-        return Instanceable.getInstance("com.example.template", ExampleProvider.class);
+        return Instanceable.getInstance(ExampleProvider.class);
     }
 
     @NonNull String getExampleValue();
