@@ -13,7 +13,6 @@ gradlew.bat
 # Output and runtime directories
 out/
 run/
-test/
 
 # IntelliJ IDEA
 *.iml
