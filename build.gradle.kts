@@ -11,7 +11,7 @@ plugins {
 fun env(name: String): String? =
     System.getenv(name) ?: project.findProperty(name) as String?
 
-// Project Metadata
+// project metadata
 group = property("group")!!
 version = property("version")!!
 
@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
 }
 
-// Load root gradle.properties
+// load root gradle.properties
 val rootProps = Properties().apply {
     val file = rootProject.file("gradle.properties")
     if (file.exists()) {
@@ -37,7 +37,7 @@ rootProps.forEach { (k, v) ->
     subprojects.forEach { sub -> sub.extra[k.toString()] = v }
 }
 
-// Load gradle.properties from subprojects
+// load gradle.properties from subprojects
 subprojects.forEach { sub ->
     val subProps = sub.file("gradle.properties")
     if (subProps.exists()) {
