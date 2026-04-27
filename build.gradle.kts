@@ -11,7 +11,7 @@ plugins {
 fun env(name: String): String? =
     System.getenv(name) ?: project.findProperty(name) as String?
 
-// project metadata
+// Project Metadata
 group = property("group")!!
 version = property("version")!!
 
@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
 }
 
-// load root gradle.properties
+// Load root gradle.properties
 val rootProps = Properties().apply {
     val file = rootProject.file("gradle.properties")
     if (file.exists()) {
@@ -37,7 +37,7 @@ rootProps.forEach { (k, v) ->
     subprojects.forEach { sub -> sub.extra[k.toString()] = v }
 }
 
-// load gradle.properties from subprojects
+// Load gradle.properties from subprojects
 subprojects.forEach { sub ->
     val subProps = sub.file("gradle.properties")
     if (subProps.exists()) {
@@ -56,12 +56,14 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://oss.sonatype.org/content/groups/public/")
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://oss.sonatype.org/content/repositories/releases")
+        maven("https://leycm.github.io/repository/")
         maven("https://libraries.minecraft.net")
+        maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.codemc.io/repository/maven-releases/")
         maven("https://repo.codemc.io/repository/maven-snapshots/")
-        maven("https://leycm.github.io/repository/")
     }
 }
 
@@ -84,6 +86,16 @@ subprojects {
     tasks.withType<Javadoc> {
         isFailOnError = false
         options.encoding = "UTF-8"
+    }
+
+    tasks.named<Jar>("jar") {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from({
+            configurations["runtimeClasspath"].filter {
+                it.name.endsWith(".jar")
+            }.map { zipTree(it) }
+        })
     }
 
     publishing {
@@ -141,7 +153,7 @@ subprojects {
 
         repositories {
             maven {
-                name = "repository"
+                name = "leycm-repo"
                 val repoDir = rootProject.projectDir.parentFile.resolve("repository")
                 url = uri(repoDir)
             }
@@ -149,11 +161,16 @@ subprojects {
     }
 
     tasks.register<Exec>("updateRepo") {
-        logger.info("Running push script in repository directory...")
+        description = "This updates the locale maven repository."
         val repoDir = rootProject.projectDir.parentFile.resolve("repository")
         val script = repoDir.resolve("publish.sh")
 
         workingDir = repoDir
+
+        doFirst {
+            logger.info("Running push script in repository directory...")
+        }
+
         commandLine("sh", script.absolutePath)
     }
 
